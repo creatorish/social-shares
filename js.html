@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SNSでシェアされた数とその合計値が取得できるPHPライブラリのjQuery連携版 SocialShares</title>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-28381001-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+<body>
+<h1>SocialShares</h1>
+<p>SocialSharesはSNSでシェアされた数とその合計値が取得できるPHPライブラリです。</p>
+<h2>Share Count: <span id="count"><img src="ajax-loader.gif" alt="取得中"></span></h2>
+<table>
+	<tr>
+		<th>facebook</th>
+		<td id="facebook-count"><img src="ajax-loader.gif" alt="取得中"></td>
+	</tr>
+	<tr>
+		<th>twitter</th>
+		<td id="twitter-count"><img src="ajax-loader.gif" alt="取得中"></td>
+	</tr>
+	<tr>
+		<th>Google+</th>
+		<td id="google-count"><img src="ajax-loader.gif" alt="取得中"></td>
+	</tr>
+	<tr>
+		<th>hatena</th>
+		<td id="hatena-count"><img src="ajax-loader.gif" alt="取得中"></td>
+	</tr>
+	<tr>
+		<th>pinterest</th>
+		<td id="pinterest-count"><img src="ajax-loader.gif" alt="取得中"></td>
+	</tr>
+</table>
+<h2>Share Link</h2>
+<table>
+	<tr>
+		<th>facebook</th>
+		<td id="facebook-url"><img src="ajax-loader.gif" alt="取得中"></td>
+	</tr>
+	<tr>
+		<th>twitter</th>
+		<td id="twitter-url"><img src="ajax-loader.gif" alt="取得中"></td>
+	</tr>
+	<tr>
+		<th>Google+</th>
+		<td id="google-url"><img src="ajax-loader.gif" alt="取得中"></td>
+	</tr>
+	<tr>
+		<th>hatena</th>
+		<td id="hatena-url"><img src="ajax-loader.gif" alt="取得中"></td>
+	</tr>
+	<tr>
+		<th>pinterest</th>
+		<td id="pinterest-url"><img src="ajax-loader.gif" alt="取得中"></td>
+	</tr>
+</table>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="jquery.social-shares.js"></script>
+<script>
+	var shares = new SocialShares({
+		success: function(data) {
+			$("#count").html(data.count);
+			for (var key in data.value) {
+				$("#"+key+"-count").html(data.value[key]["count"]);
+				//$("#"+key+"-url").html("<a href='"+data.value[key]["url"]+"' target='_blank'>"+data.value[key]["url"]+"</a>");
+			}
+		}
+	});
+	shares.init("http://creatorish.com/lab/2282");
+	
+	$("#facebook-url").html("<a href='"+shares.getLink("facebook")+"' target='_blank'>"+shares.getLink("facebook")+"</a>");
+	$("#twitter-url").html("<a href='"+shares.getLink("facebook")+"' target='_blank'>"+shares.getLink("twitter")+"</a>");
+	$("#google-url").html("<a href='"+shares.getLink("facebook")+"' target='_blank'>"+shares.getLink("google")+"</a>");
+	$("#hatena-url").html("<a href='"+shares.getLink("facebook")+"' target='_blank'>"+shares.getLink("hatena")+"</a>");
+	$("#pinterest-url").html("<a href='"+shares.getLink("facebook")+"' target='_blank'>"+shares.getLink("pinterest")+"</a>");
+</script>
+</body>
+</html>
