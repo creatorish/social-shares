@@ -11,7 +11,7 @@
 	 **/
 	class SocialShares {
 		private $social_api = array(
-			"facebook" => "http://graph.facebook.com/",
+			"facebook" => "http://api.facebook.com/method/fql.query?format=json&query=select%20%20total_count%20from%20link_stat%20where%20url=",
 			"twitter" => "http://urls.api.twitter.com/1/urls/count.json?url=",
 			"hatena" => "http://api.b.st-hatena.com/entry.count?url=",
 			"google" => "https://plusone.google.com/u/0/_/+1/fastbutton?url=",
@@ -120,16 +120,17 @@
 			return $count;
 		}
 		private function get_facebook_count() {
-			$likecount = file_get_contents($this->social_api["facebook"] . $this->_url, true);
+			$likecount = file_get_contents($this->social_api["facebook"] . "%22" . $this->_url . "%22", true);
 			$decode_likecount = json_decode($likecount, true);
-			if ($decode_likecount && $decode_likecount["shares"]) {
-				return $decode_likecount["shares"];
+			if ($decode_likecount && $decode_likecount[0] &&  $decode_likecount[0]["total_count"]) {
+				return $decode_likecount[0]["total_count"];
 			}
 			return 0;
 		}
 		private function get_twitter_count() {
 			$tweetcount = file_get_contents($this->social_api["twitter"] . $this->_url, true);
 			$decode_tweetcount = json_decode($tweetcount, true);
+			
 			if ($decode_tweetcount) {
 				return $decode_tweetcount['count'];
 			}
